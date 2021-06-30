@@ -21,10 +21,13 @@ async def on_ready():
 
 responses = ["SHUT UP JOSH!!!!!!", "YO MAMA!!!!!!", "NICE ONE!!!!!!", "SO MEAN!!!!!!", "THAT'S RESPECT!!!!!!"]
 phrases = ['mama', 'mom', 'mother']
+pic_ext = ['.jpg', '.png', '.jpeg']
 
 
 @client.event
 async def on_message(message):
+    if message.author == client.user:
+        return
     if message.content[0:2] == '!p' or message.content[0:2] == '-p':
         for s in phrases:
             if s in message.content.lower():
@@ -34,13 +37,18 @@ async def on_message(message):
                     if members.id == 235088799074484224 or members.id == 234395307759108106:
                         await members.edit(voice_channel=None)
                         return
-    if message.author.id != 404383046733791233:
-        return
+    #if message.author.id != 404383046733791233:
+        #return
     else:
         rand = random.random() * 100
-        if rand > 92:
+        if len(message.attachments) > 0:
+            for ext in pic_ext:
+                if message.attachments[0].filename.endswith(ext):
+                    await message.reply(file=discord.File('C:/Users/crayo/Anti_Troll_Discord_Bot/josh.jpg'))
+                    return
+        if rand > 90:
             await message.reply(file=discord.File('C:/Users/crayo/Anti_Troll_Discord_Bot/facebank.jpg'))
-        elif rand > 65:
+        elif rand > 50:
             await message.reply(responses[random.randrange(0, len(responses))])
 
 client.run(TOKEN)
