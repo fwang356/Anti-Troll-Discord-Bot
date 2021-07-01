@@ -98,7 +98,7 @@ async def user(ctx):
             ide = members.id
             dude = members
     if dude is None:
-        await ctx.send(username + " was not found in the server. U probably suck at spelling.")
+        await ctx.send(username + " was not found in the server. You probably suck at spelling LOLOLOLOLOL!!!!!!")
         return
 
     if dude.nick is None:
@@ -137,10 +137,12 @@ async def on_message(message):
         if len(message.attachments) > 0:
             for ext in pic_ext:
                 if message.attachments[0].filename.endswith(ext):
-                    await message.reply(file=discord.File('C:/Users/crayo/Anti_Troll_Discord_Bot/josh.jpg'))
+                    await message.reply(file=discord.File('C:/Users/crayo/Anti_Troll_Discord_Bot/assets/josh.jpg'))
                     return
-        if rand > 90:
-            await message.reply(file=discord.File('C:/Users/crayo/Anti_Troll_Discord_Bot/facebank.jpg'))
+        if rand > 95:
+            await message.reply(file=discord.File('C:/Users/crayo/Anti_Troll_Discord_Bot/assets/facebank.jpg'))
+        elif rand > 90:
+            await message.reply(file=discord.File('C:/Users/crayo/Anti_Troll_Discord_bot/assets/facebank_inverted.jpg'))
         elif rand > 50:
             await message.reply(responses[random.randrange(0, len(responses))])
     await bot.process_commands(message)
