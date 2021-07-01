@@ -130,7 +130,7 @@ async def on_message(message):
                     if members.id == 235088799074484224 or members.id == 234395307759108106:
                         await members.edit(voice_channel=None)
                         return
-    if message.author.id != 404383046733791233:
+    if message.author.id != 403745233507975169:
         return
     else:
         rand = random.random() * 100
