@@ -97,10 +97,12 @@ async def user(ctx):
         if members.name.lower() == username.lower():
             ide = members.id
             dude = members
-    if dude is None:
-        await ctx.send(username + " was not found in the server. You probably suck at spelling LOLOLOLOLOL!!!!!!")
+    if dude.bot:
+        await ctx.send("THAT'S A BOT IDIOT!!!!!!")
         return
-
+    if dude is None:
+        await ctx.send("WHO IS " + username.upper() + "??????")
+        return
     if dude.nick is None:
         response = discord.Embed(title=dude.name, url='https://i.imgur.com/yZUkeeB.png',
                                  description=dude.name + " (ID: " + str(ide) + ")", color=0x889ceb)
@@ -119,6 +121,7 @@ async def user(ctx):
 
 @bot.event
 async def on_message(message):
+    await bot.process_commands(message)
     if message.author == bot.user:
         return
     if message.content[0:2] == '!p' or message.content[0:2] == '-p':
@@ -145,6 +148,5 @@ async def on_message(message):
             await message.reply(file=discord.File('C:/Users/crayo/Anti_Troll_Discord_bot/assets/facebank_inverted.jpg'))
         elif rand > 50:
             await message.reply(responses[random.randrange(0, len(responses))])
-    await bot.process_commands(message)
 
 bot.run(TOKEN)
