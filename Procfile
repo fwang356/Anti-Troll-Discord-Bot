@@ -1,1 +1,1 @@
-worker: python3 src/bot.py
+web: gunicorn src/bot.py
