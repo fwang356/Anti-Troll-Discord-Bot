@@ -133,10 +133,8 @@ async def on_message(message):
                     if members.id == 235088799074484224 or members.id == 234395307759108106:
                         await members.edit(voice_channel=None)
                         return
-    if message.author.id != 403745233507975169:
-        return
-    else:
-        rand = random.random() * 100
+    rand = random.random() * 100
+    if message.author.id == 403745233507975169:
         if len(message.attachments) > 0:
             for ext in pic_ext:
                 if message.attachments[0].filename.endswith(ext):
@@ -148,5 +146,8 @@ async def on_message(message):
             await message.reply(file=discord.File('C:/Users/crayo/Anti_Troll_Discord_bot/assets/facebank_inverted.jpg'))
         elif rand > 50:
             await message.reply(responses[random.randrange(0, len(responses))])
+    else:
+        if rand > 95:
+            await message.reply(file=discord.File('C:/Users/crayo/Anti_Troll_Discord_Bot/assets/facebank_inverted.jpg'))
 
 bot.run(TOKEN)
