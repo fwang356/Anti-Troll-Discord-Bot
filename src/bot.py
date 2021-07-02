@@ -128,7 +128,7 @@ async def on_message(message):
         for s in phrases:
             if s in message.content.lower():
                 await message.reply('STOP PLAYING YO MAMA JOKES!!!!!!')
-                await asyncio.sleep(1)
+                await asyncio.sleep(10)
                 for members in message.author.voice.channel.members:
                     if members.id == 235088799074484224 or members.id == 234395307759108106:
                         await members.edit(voice_channel=None)
