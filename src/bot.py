@@ -29,6 +29,7 @@ pic_ext = ['.jpg', '.png', '.jpeg']
 
 @bot.command(name='stats')
 async def stats(ctx):
+    await ctx.sent("HOLD ON I'M WORKING ON IT!!!!!!")
     most = ''
     least = ''
     user_msg = {}
@@ -86,6 +87,7 @@ async def stats(ctx):
 
 @bot.command(name='user')
 async def user(ctx):
+    await ctx.sent("HOLD ON I'M WORKING ON IT!!!!!!")
     guild = discord.utils.find(lambda g: g.name == GUILD, bot.guilds)
     msg_count = 0
     pic_count = 0
@@ -121,7 +123,7 @@ async def user(ctx):
     response.add_field(name="Joined Server On", value=dude.joined_at.strftime("%A, %B %d %Y @ %H:%M:%S %p"),
                        inline=False)
     response.add_field(name="Total Messages Sent", value=msg_count, inline=True)
-    response.add_field(name="Pictures Sent", value=bot.pic_count, inline=True)
+    response.add_field(name="Pictures Sent", value=pic_count, inline=True)
     await ctx.send(embed=response)
 
 
