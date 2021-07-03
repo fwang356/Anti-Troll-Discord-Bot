@@ -132,20 +132,17 @@ async def on_message(message):
     await bot.process_commands(message)
     rand = random.random() * 100
     if message.author == 403745233507975169:
-        if message.content[0:2] == '!p' or message.content[0:2] == '-p':
-            count = 0
+        if message.content[0:2].lower() == '!p' or message.content[0:2].lower() == '-p':
             for s in phrases:
                 if s in message.content.lower():
-                    count = count + 1
-            if count == 0:
-                await message.reply('JOSH YOUR SONGS SUCK!!!!!!')
-            else:
-                await message.reply('STOP PLAYING YO MAMA JOKES!!!!!!')
-            await asyncio.sleep(1)
-            for members in message.author.voice.channel.members:
-                if members.id == 235088799074484224 or members.id == 234395307759108106:
-                    await members.edit(voice_channel=None)
-                    return
+                    await message.reply('JOSH YOUR SONGS SUCK!!!!!!')
+                else:
+                    await message.reply('STOP PLAYING YO MAMA JOKES!!!!!!')
+                await asyncio.sleep(1)
+                for members in message.author.voice.channel.members:
+                    if members.id == 235088799074484224 or members.id == 234395307759108106:
+                        await members.edit(voice_channel=None)
+                        return
         else:
             if len(message.attachments) > 0:
                 for ext in pic_ext:
