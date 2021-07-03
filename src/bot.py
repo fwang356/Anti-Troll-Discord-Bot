@@ -14,60 +14,10 @@ intents = discord.Intents.default()
 intents.members = True
 bot = commands.Bot(command_prefix='$', intents=intents)
 
-bot.most = ''
-bot.least = ''
-bot.user_msg = {}
-bot.user_pic = {}
-
 
 @bot.event
 async def on_ready():
-    bot.user_msg = {}
-    bot.user_pic = {}
-    guild = discord.utils.find(lambda g: g.name == GUILD, bot.guilds)
     print(f'{bot.user.name} has connected to Discord!')
-
-    for channel in guild.text_channels:
-        async for message in channel.history(limit=1000):
-            if not message.author.bot:
-                ide = message.author.id
-                if len(message.attachments) > 0:
-                    for ext in pic_ext:
-                        if message.attachments[0].filename.endswith(ext):
-                            if ide not in bot.user_pic:
-                                bot.user_pic.update({ide: 0})
-                            bot.user_pic[ide] = bot.user_pic[ide] + 1
-                if ide not in bot.user_msg:
-                    bot.user_msg.update({ide: 0})
-                bot.user_msg[ide] = bot.user_msg[ide] + 1
-    most_active = []
-    least_active = []
-    values = list(bot.user_msg.values())
-    keys = list(bot.user_msg.keys())
-    original_value = len(values)
-
-    for i in range(min(5, int(len(values) / 2 + 1))):
-        msg_sent = max(values)
-        position = values.index(msg_sent)
-        key = keys[position]
-        most_active.append(bot.get_user(key).name + ": " + str(msg_sent))
-        bot.most = bot.most + most_active[i] + "\n"
-        values.remove(msg_sent)
-        keys.remove(key)
-        if original_value < 6:
-            least_active = most_active
-            least_active.reverse()
-            bot.least = bot.least + least_active[i] + "\n"
-        elif len(values) != 0:
-            msg_sent = min(values)
-            position = values.index(msg_sent)
-            key = keys[position]
-            least_active.append(guild.get_member(key).name + ": " + str(msg_sent))
-            bot.least = bot.least + least_active[i] + "\n"
-            values.remove(msg_sent)
-            keys.remove(key)
-        else:
-            break
     print("Done!")
 
 
@@ -79,18 +29,66 @@ pic_ext = ['.jpg', '.png', '.jpeg']
 
 @bot.command(name='stats')
 async def stats(ctx):
+    most = ''
+    least = ''
+    user_msg = {}
+    user_pic = {}
+    guild = discord.utils.find(lambda g: g.name == GUILD, bot.guilds)
+    for channel in guild.text_channels:
+        async for message in channel.history(limit=1000):
+            if not message.author.bot:
+                ide = message.author.id
+                if len(message.attachments) > 0:
+                    for ext in pic_ext:
+                        if message.attachments[0].filename.endswith(ext):
+                            if ide not in user_pic:
+                                user_pic.update({ide: 0})
+                            user_pic[ide] = user_pic[ide] + 1
+                if ide not in user_msg:
+                    user_msg.update({ide: 0})
+                user_msg[ide] = user_msg[ide] + 1
+    most_active = []
+    least_active = []
+    values = list(user_msg.values())
+    keys = list(user_msg.keys())
+    original_value = len(values)
+
+    for i in range(min(5, int(len(values) / 2 + 1))):
+        msg_sent = max(values)
+        position = values.index(msg_sent)
+        key = keys[position]
+        most_active.append(bot.get_user(key).name + ": " + str(msg_sent))
+        most = most + most_active[i] + "\n"
+        values.remove(msg_sent)
+        keys.remove(key)
+        if original_value < 6:
+            least_active = most_active
+            least_active.reverse()
+            least = least + least_active[i] + "\n"
+        elif len(values) != 0:
+            msg_sent = min(values)
+            position = values.index(msg_sent)
+            key = keys[position]
+            least_active.append(guild.get_member(key).name + ": " + str(msg_sent))
+            least = least + least_active[i] + "\n"
+            values.remove(msg_sent)
+            keys.remove(key)
+        else:
+            break
     response = discord.Embed(title='Server User Analytics', url='https://i.imgur.com/yZUkeeB.png',
                              description="Returns the most and least recently active users in the server, "
                                          "along with the number of messages sent.", color=0x889ceb)
     response.set_thumbnail(url='https://i.imgur.com/yZUkeeB.png')
-    response.add_field(name="Most Active", value=bot.most, inline=True)
-    response.add_field(name="Least Active", value=bot.least, inline=True)
+    response.add_field(name="Most Active", value=most, inline=True)
+    response.add_field(name="Least Active", value=least, inline=True)
     await ctx.send(embed=response)
 
 
 @bot.command(name='user')
 async def user(ctx):
     guild = discord.utils.find(lambda g: g.name == GUILD, bot.guilds)
+    msg_count = 0
+    pic_count = 0
     username = ctx.message.content[6:]
     dude = None
     for members in guild.members:
@@ -103,6 +101,14 @@ async def user(ctx):
     if dude is None:
         await ctx.send("WHO IS " + username.upper() + "??????")
         return
+    for channel in guild.text_channels:
+        async for message in channel.history(limit=1000):
+            if message.author.id == ide:
+                msg_count = msg_count + 1
+                if len(message.attachments) > 0:
+                    for ext in pic_ext:
+                        if message.attachments[0].filename.endswith(ext):
+                            pic_count = pic_count + 1
     if dude.nick is None:
         response = discord.Embed(title=dude.name, url='https://i.imgur.com/yZUkeeB.png',
                                  description=dude.name + " (ID: " + str(ide) + ")", color=0x889ceb)
@@ -114,8 +120,8 @@ async def user(ctx):
                        inline=False)
     response.add_field(name="Joined Server On", value=dude.joined_at.strftime("%A, %B %d %Y @ %H:%M:%S %p"),
                        inline=False)
-    response.add_field(name="Total Messages Sent", value=bot.user_msg.get(ide), inline=True)
-    response.add_field(name="Pictures Sent", value=bot.user_pic.get(ide), inline=True)
+    response.add_field(name="Total Messages Sent", value=msg_count, inline=True)
+    response.add_field(name="Pictures Sent", value=bot.pic_count, inline=True)
     await ctx.send(embed=response)
 
 
