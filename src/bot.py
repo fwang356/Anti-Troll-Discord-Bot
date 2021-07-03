@@ -155,7 +155,7 @@ async def on_message(message):
                 await message.reply(file=discord.File('assets/facebank_inverted.jpg'))
             elif rand > 50:
                 await message.reply(responses[random.randrange(0, len(responses))])
-    if message.author.id == 859519371399790614:
+    elif message.author.id == 859519371399790614:
         return
     else:
         if rand > 95:
