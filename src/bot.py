@@ -134,7 +134,9 @@ async def on_message(message):
                         await members.edit(voice_channel=None)
                         return
     rand = random.random() * 100
-    if message.author.id == 403745233507975169:
+    if message.author.id == 859519371399790614:
+        return
+    elif message.author.id == 403745233507975169:
         if len(message.attachments) > 0:
             for ext in pic_ext:
                 if message.attachments[0].filename.endswith(ext):
