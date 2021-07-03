@@ -131,7 +131,7 @@ async def user(ctx):
 async def on_message(message):
     await bot.process_commands(message)
     rand = random.random() * 100
-    if message.author == 403745233507975169:
+    if message.author.id == 403745233507975169:
         if message.content[0:2].lower() == '!p' or message.content[0:2].lower() == '-p':
             for s in phrases:
                 if s in message.content.lower():
