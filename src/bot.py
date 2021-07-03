@@ -150,6 +150,6 @@ async def on_message(message):
             await message.reply(responses[random.randrange(0, len(responses))])
     else:
         if rand > 95:
-            await message.reply(file=discord.File('C:/Users/crayo/Anti_Troll_Discord_Bot/assets/facebank_inverted.jpg'))
+            await message.reply(file=discord.File('assets/facebank_inverted.jpg'))
 
 bot.run(TOKEN)
