@@ -140,12 +140,12 @@ async def on_message(message):
         if len(message.attachments) > 0:
             for ext in pic_ext:
                 if message.attachments[0].filename.endswith(ext):
-                    await message.reply(file=discord.File('C:/Users/crayo/Anti_Troll_Discord_Bot/assets/josh.jpg'))
+                    await message.reply(file=discord.File('assets/josh.jpg'))
                     return
         if rand > 95:
-            await message.reply(file=discord.File('C:/Users/crayo/Anti_Troll_Discord_Bot/assets/facebank.jpg'))
+            await message.reply(file=discord.File('assets/facebank.jpg'))
         elif rand > 90:
-            await message.reply(file=discord.File('C:/Users/crayo/Anti_Troll_Discord_bot/assets/facebank_inverted.jpg'))
+            await message.reply(file=discord.File('assets/facebank_inverted.jpg'))
         elif rand > 50:
             await message.reply(responses[random.randrange(0, len(responses))])
     else:
